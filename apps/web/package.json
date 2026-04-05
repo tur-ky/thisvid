@@ -1,0 +1,30 @@
+{
+  "name": "@thisvid/web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "thisvid — Next.js static web shell",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "type-check": "tsc --noEmit",
+    "clean": "rimraf .next out"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.10.1",
+    "@tauri-apps/plugin-fs": "^2.5.0",
+    "@tauri-apps/plugin-shell": "^2.3.5",
+    "@thisvid/core": "*",
+    "@thisvid/ui": "*",
+    "next": "^14.2.35",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.3",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.3"
+  }
+}

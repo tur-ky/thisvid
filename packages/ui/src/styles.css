@@ -1,0 +1,396 @@
+/**
+ * thisvid — Design System
+ * Dark-mode glassmorphism with HSL color tokens.
+ * Import this file once at the app root: import "@thisvid/ui/styles.css"
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* ─── Tokens ──────────────────────────────────────────────────────────────── */
+:root {
+  /* Brand */
+  --tv-hue: 258;
+  --tv-accent:         hsl(var(--tv-hue), 85%, 65%);
+  --tv-accent-dim:     hsl(var(--tv-hue), 60%, 50%);
+  --tv-accent-glow:    hsl(var(--tv-hue), 85%, 65%, 0.25);
+
+  /* Surfaces */
+  --tv-bg:             hsl(230, 20%, 7%);
+  --tv-surface-1:      hsl(230, 18%, 11%);
+  --tv-surface-2:      hsl(230, 16%, 15%);
+  --tv-surface-3:      hsl(230, 14%, 20%);
+  --tv-glass:          hsl(230, 20%, 12%, 0.7);
+
+  /* Text */
+  --tv-text-primary:   hsl(220, 20%, 94%);
+  --tv-text-secondary: hsl(220, 12%, 60%);
+  --tv-text-muted:     hsl(220, 10%, 40%);
+
+  /* Status colors */
+  --tv-success:        hsl(145, 65%, 50%);
+  --tv-warning:        hsl(38,  90%, 56%);
+  --tv-error:          hsl(0,   75%, 60%);
+  --tv-info:           hsl(200, 85%, 60%);
+
+  /* Borders */
+  --tv-border:         hsl(230, 20%, 22%);
+  --tv-border-focus:   var(--tv-accent);
+
+  /* Spacing */
+  --tv-radius-sm:  6px;
+  --tv-radius-md: 12px;
+  --tv-radius-lg: 18px;
+  --tv-radius-xl: 24px;
+
+  /* Animation */
+  --tv-ease:     cubic-bezier(0.25, 0.8, 0.25, 1);
+  --tv-duration: 180ms;
+
+  /* Typography */
+  --tv-font:      "Inter", system-ui, -apple-system, sans-serif;
+  --tv-font-mono: "JetBrains Mono", "Fira Code", monospace;
+}
+
+/* ─── Reset & Base ────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-family: var(--tv-font);
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--tv-bg);
+  color: var(--tv-text-primary);
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, hsl(var(--tv-hue), 60%, 20%, 0.3), transparent),
+    radial-gradient(ellipse 50% 30% at 85% 80%, hsl(200, 70%, 20%, 0.15), transparent);
+}
+
+/* ─── Layout ──────────────────────────────────────────────────────────────── */
+.tv-download-interface {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: clamp(24px, 5vw, 64px) clamp(16px, 4vw, 32px);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* ─── Header ──────────────────────────────────────────────────────────────── */
+.tv-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.tv-brand {
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  background: linear-gradient(135deg, var(--tv-accent), hsl(200, 85%, 65%));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+}
+
+.tv-tagline {
+  color: var(--tv-text-secondary);
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+/* ─── Server Indicator ────────────────────────────────────────────────────── */
+.tv-server-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--tv-text-muted);
+  font-family: var(--tv-font-mono);
+}
+
+.tv-server-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--tv-success);
+  box-shadow: 0 0 6px var(--tv-success);
+  animation: tv-pulse 2s ease-in-out infinite;
+}
+
+@keyframes tv-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+/* ─── Banners ─────────────────────────────────────────────────────────────── */
+.tv-banner {
+  width: 100%;
+  padding: 10px 16px;
+  border-radius: var(--tv-radius-md);
+  font-size: 0.8125rem;
+}
+.tv-banner--warning {
+  background: hsl(38, 80%, 15%);
+  border: 1px solid hsl(38, 70%, 30%);
+  color: var(--tv-warning);
+}
+
+/* ─── URL Form ────────────────────────────────────────────────────────────── */
+.tv-url-form {
+  display: flex;
+  gap: 10px;
+}
+
+.tv-url-input {
+  flex: 1;
+  height: 48px;
+  padding: 0 16px;
+  background: var(--tv-surface-1);
+  border: 1px solid var(--tv-border);
+  border-radius: var(--tv-radius-md);
+  color: var(--tv-text-primary);
+  font-family: var(--tv-font);
+  font-size: 0.9rem;
+  transition: border-color var(--tv-duration) var(--tv-ease),
+              box-shadow   var(--tv-duration) var(--tv-ease);
+  outline: none;
+}
+
+.tv-url-input::placeholder { color: var(--tv-text-muted); }
+
+.tv-url-input:focus {
+  border-color: var(--tv-accent);
+  box-shadow: 0 0 0 3px var(--tv-accent-glow);
+}
+
+/* ─── Buttons ─────────────────────────────────────────────────────────────── */
+.tv-btn {
+  height: 48px;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: var(--tv-radius-md);
+  font-family: var(--tv-font);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--tv-duration) var(--tv-ease);
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+.tv-btn--primary {
+  background: linear-gradient(135deg, var(--tv-accent-dim), var(--tv-accent));
+  color: white;
+  box-shadow: 0 2px 12px var(--tv-accent-glow);
+}
+.tv-btn--primary:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px var(--tv-accent-glow);
+}
+.tv-btn--primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+.tv-btn--primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.tv-btn--ghost {
+  background: transparent;
+  color: var(--tv-text-secondary);
+  border-color: var(--tv-border);
+  height: 34px;
+  padding: 0 14px;
+  font-size: 0.8125rem;
+}
+.tv-btn--ghost:hover {
+  background: var(--tv-surface-2);
+  color: var(--tv-text-primary);
+}
+
+/* ─── Section Headers ─────────────────────────────────────────────────────── */
+.tv-section-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--tv-text-muted);
+  margin-bottom: 10px;
+}
+
+.tv-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.tv-section-header .tv-section-title { margin-bottom: 0; }
+
+/* ─── Task List ───────────────────────────────────────────────────────────── */
+.tv-task-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tv-progress-fill[style] {
+  width: var(--progress, 0%);
+}
+
+.tv-task-row {
+  background: var(--tv-glass);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--tv-border);
+  border-radius: var(--tv-radius-md);
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 12px;
+  transition: border-color var(--tv-duration) var(--tv-ease),
+              background   var(--tv-duration) var(--tv-ease);
+  animation: tv-slide-in 220ms var(--tv-ease) both;
+}
+
+@keyframes tv-slide-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.tv-task-row--complete  { border-color: hsl(145, 50%, 25%); }
+.tv-task-row--error     { border-color: hsl(0, 50%, 30%); background: hsl(0, 30%, 10%, 0.6); }
+.tv-task-row--cancelled { opacity: 0.5; }
+
+.tv-task-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.tv-task-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--tv-text-primary);
+}
+
+.tv-format-select {
+  width: fit-content;
+  max-width: 240px;
+  height: 28px;
+  padding: 0 8px;
+  background: var(--tv-surface-2);
+  border: 1px solid var(--tv-border);
+  border-radius: var(--tv-radius-sm);
+  color: var(--tv-text-secondary);
+  font-size: 0.75rem;
+  font-family: var(--tv-font);
+  cursor: pointer;
+  outline: none;
+}
+.tv-format-select:focus {
+  border-color: var(--tv-accent);
+}
+
+/* ─── Status Badge ────────────────────────────────────────────────────────── */
+.tv-task-status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  min-width: 80px;
+}
+
+.tv-status-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: var(--tv-font-mono);
+  color: var(--tv-text-secondary);
+}
+.tv-task-row--downloading .tv-status-badge { color: var(--tv-info); }
+.tv-task-row--complete    .tv-status-badge { color: var(--tv-success); }
+.tv-task-row--error       .tv-status-badge { color: var(--tv-error); }
+
+.tv-progress-bar {
+  width: 80px;
+  height: 4px;
+  background: var(--tv-surface-3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.tv-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--tv-accent-dim), var(--tv-accent));
+  border-radius: 2px;
+  transition: width 400ms var(--tv-ease);
+}
+
+.tv-speed {
+  font-family: var(--tv-font-mono);
+  font-size: 0.7rem;
+  color: var(--tv-text-muted);
+}
+
+.tv-error-msg {
+  font-size: 0.7rem;
+  color: var(--tv-error);
+  max-width: 200px;
+  text-align: right;
+  line-height: 1.4;
+}
+
+/* ─── Task Actions ────────────────────────────────────────────────────────── */
+.tv-task-actions {
+  display: flex;
+  gap: 6px;
+}
+
+/* ─── Bulk Actions ────────────────────────────────────────────────────────── */
+.tv-bulk-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.tv-bulk-actions .tv-btn { height: 36px; font-size: 0.8rem; }
+
+/* ─── Empty State ─────────────────────────────────────────────────────────── */
+.tv-empty {
+  text-align: center;
+  padding: 64px 0;
+  color: var(--tv-text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.tv-empty-sub {
+  font-size: 0.8125rem;
+}
+.tv-empty a {
+  color: var(--tv-accent);
+  text-decoration: none;
+}
+.tv-empty a:hover { text-decoration: underline; }
+
+/* ─── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .tv-task-row {
+    grid-template-columns: 1fr;
+  }
+  .tv-task-status { align-items: flex-start; }
+  .tv-url-form { flex-direction: column; }
+  .tv-btn { width: 100%; }
+}
