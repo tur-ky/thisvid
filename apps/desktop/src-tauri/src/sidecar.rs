@@ -216,6 +216,10 @@ pub async fn download_video(
     )
     .expect("progress regex is valid");
 
+    // Rule 5 (Loud Failures): keep yt-dlp's own `ERROR:` lines so a failed
+    // download reports the real reason, not just an exit code.
+    let mut last_error_line = String::new();
+
     loop {
         tokio::select! {
             // Cancel signal received
@@ -233,13 +237,22 @@ pub async fn download_video(
                             let speed = Some(caps[2].to_string());
                             let eta   = Some(caps[3].to_string());
                             on_progress(pct, speed, eta);
+                        } else if text.trim_start().starts_with("ERROR:") {
+                            last_error_line = text.trim().to_string();
                         }
                     }
                     Some(CommandEvent::Terminated(payload)) => {
                         if payload.code != Some(0) {
+                            if last_error_line.is_empty() {
+                                anyhow::bail!(
+                                    "yt-dlp download exited with code {:?}",
+                                    payload.code
+                                );
+                            }
                             anyhow::bail!(
-                                "yt-dlp download exited with code {:?}",
-                                payload.code
+                                "yt-dlp download exited with code {:?}: {}",
+                                payload.code,
+                                last_error_line
                             );
                         }
                         break;
